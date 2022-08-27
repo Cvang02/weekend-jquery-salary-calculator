@@ -1,74 +1,23 @@
-// ## Assignment
-
-// The application should have an input form that collects _employee first name, 
-// last name, ID number, job title, annual salary_.
-
-// A 'Submit' button should collect the form information, store the information 
-// to calculate monthly costs, append information to the DOM and clear the input fields. 
-// Using the stored information, calculate monthly costs and append this to the to DOM. 
-// If the total monthly cost exceeds $20,000, add a red background color to the total 
-// monthly cost.
-
-// Create a delete button that removes an employee from the DOM. For Base mode, 
-// it does **not** need to remove that Employee's salary from the reported total.
+// // ## Assignment
 
 $(document).ready(onReady);
 
+// A 'Submit' button should collect the form information, store the information 
 function onReady() {
-    $('#submit-button').on('click', renderEmployees);
     $('#submit-button').on('click', addEmployees);
 }
 
-//Create an array of Objects with employee's inforamtion.
-let employeesInformation = [{
-    firstName: 'Clark',
-    lastName: 'J. Kent',
-    id: 1111,
-    title: 'Superman',
-    annualSalary: 10000
-},
-{
-    firstName: 'Bruce',
-    lastName: 'Wayne',
-    id: 2222,
-    title: 'Batman',
-    annualSalary: 30000
-},
-{
-    firstName: 'Arthur',
-    lastName: 'Curry',
-    id: 3333,
-    title: 'Aquaman',
-    annualSalary: 20000
-},
-]; 
+let totalMonthly = 0;
 
-// This function is to add the already exsisting employee array. 
-function renderEmployees () {
-    $('#tablebody').empty();
-    for (let employee of employeesInformation) {
-        // console.log(employee); Test only to see the objects. 
-        $('#tablebody').append(`
-        <tr>
-            <td>${employee.firstName}</td>
-            <td>${employee.lastName}</td>
-            <td>${employee.id}</td>
-            <td>${employee.title}</td>
-            <td>${employee.annualSalary}</td>
-        </tr>
-`)}
-
-
-}; //end of addEmployee-function. 
-
-// This function to to add any new employee information into the array. 
 function addEmployees () {
+    // lists of the employees information. 
     let employeeName = $('#firstNameInput').val();
     let employeeLast = $('#lastNameInput').val();
     let employeeID = $('#idInput').val();
     let employeeTitle = $('#titleInput').val();
     let employeeAnnualSalary = $('#annualSalaryInput').val();
 
+    // add employees information into a objects for easier access. 
     let newEmployees = {
         firstName: employeeName,
         lastName: employeeLast,
@@ -76,12 +25,23 @@ function addEmployees () {
         title: employeeTitle,
         annualSalary: Number(employeeAnnualSalary)
     }
+    console.log(newEmployees);
 
-    employeesInformation.push(newEmployees);
-    
-    renderEmployees();
-    
+    $('#tablebody').append(`
+        <tr>
+            <td>${employeeName}</td>
+            <td>${employeeLast}</td>
+            <td>${employeeID}</td>
+            <td>${employeeTitle}</td>
+            <td>${employeeAnnualSalary}</td>
+        </tr>
+    `);
+
+    //this caculate the total of annual salary when employees info is added. 
+    totalMonthly += newEmployees.annualSalary
+    $('#totalMonthly').empty();
+    $('#totalMonthly').append(`<h4 id="totalMonthly">Total Monthly: $ ${Number(totalMonthly)}</h4>`);
 
 
-} //end of addEmployees-function. 
-
+} //end of addEmployee-function. 
+ 
