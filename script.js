@@ -8,12 +8,11 @@ function onReady() {
     $(document).on('click', '.deleteButton', deleteEmployee);
 }
 
-
 let totalMonthly = 0;
-let numbersOfEmployees = [];
+let listsOfEmployees = [];
 
 function addEmployees () {
-    // lists of the employees information. 
+    // lists of the input employees information. 
     let employeeName = $('#firstNameInput').val();
     let employeeLast = $('#lastNameInput').val();
     let employeeID = $('#idInput').val();
@@ -21,7 +20,7 @@ function addEmployees () {
     let employeeAnnualSalary = $('#annualSalaryInput').val();
 
     // add employees information into a objects for easier access. 
-    let newEmployees = {
+    let employeesInformation = {
         firstName: employeeName,
         lastName: employeeLast,
         id: Number(employeeID),
@@ -29,9 +28,11 @@ function addEmployees () {
         annualSalary: Number(employeeAnnualSalary)
     }
     
-    numbersOfEmployees.push(newEmployees)
-    console.log(numbersOfEmployees);
+    //this will push the newly added object into an array. 
+    listsOfEmployees.push(employeesInformation)
+    console.log(listsOfEmployees);
 
+    //this will add the output of employee info into a tableroll display on the DOM. 
     $('#tablebody').append(`
         <tr id="tableRollOutput">
             <td>${employeeName}</td>
@@ -46,26 +47,20 @@ function addEmployees () {
     `);
 
     //this caculate the total of annual salary when employees info is added. 
-    totalMonthly += newEmployees.annualSalary
+    totalMonthly += employeesInformation.annualSalary
     $('#totalMonthly').empty();
     $('#totalMonthly').append(`<h4 id="totalMonthly">Total Monthly: $ ${Number(totalMonthly)}</h4>`);
 
+    //this if-statement will change the background of totalmonthly when going over the budget. 
+    if (totalMonthly > 20000) {
+        $('#totalMonthly').css('background-color', 'red');
+            alert('OHHHHH NO!!! YOU WENT OVER THE BUDGET!!!');
+    }
+    else {}
+
 } //end of addEmployee-function. 
  
+//this function will delete an employee on click button. 
 function deleteEmployee () {
     $('#tableRollOutput').remove();
-    // $('#totalMonthly').empty();
-    // $('#totalMonthly').append(`<h4 id="totalMonthly">Total Monthly: $ ${Number(totalMonthly)}</h4>`);
 }
-
-// function total () {
-//     if (totalMonthly > 20000) {
-//         $('#totalMonthly').css('backtext-color', 'red');
-//     }
-//     else {}
-// };
-
-
-// Need to find a way to change background color when total month exceed 20,000.
-// research if I am using .css correctly. Look at code to make sure it runs corrently and 
-// the way it intends it to. 
